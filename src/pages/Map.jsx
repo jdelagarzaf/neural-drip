@@ -1,7 +1,7 @@
 // Puedes llamarlo MapComponent.jsx
 import React, { useRef, useEffect, useState } from "react";
 
-const GOOGLE_MAPS_API_KEY = "AIzaSyDiD4G4Vu5zTV7iN6bjRLH9jBvgEhH4238";
+const GOOGLE_MAPS_API_KEY = "";
 
 function loadScript(src) {
   return new Promise((resolve) => {
