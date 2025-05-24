@@ -1,0 +1,46 @@
+.contenedor-mapa {
+  max-width: 70%;
+  margin: 40px auto;
+  background: #f5f5f5;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 24px;
+}
+
+.titulo-mapa {
+  text-align: center;
+}
+
+.controls {
+  width: 70%;
+  margin: 0 auto;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.controls label {
+  font-weight: bold;
+}
+
+.controls input {
+  width: 120px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+button {
+  background: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 16px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+button:hover {
+  background: #1565c0;
+}

@@ -1,3 +1,4 @@
+import "./Map.css";
 // Puedes llamarlo MapComponent.jsx
 import React, { useRef, useEffect, useState } from "react";
 
@@ -71,14 +72,16 @@ export default function MapComponent() {
     }
   };
 
+
   const clearMap = () => {
     markers.forEach((marker) => marker.setMap(null));
     setMarkers([]);
   };
 
+
   return (
-    <div>
-      <h1>Mapa</h1>
+    <div class="contenedor-mapa">
+      <h1 class="titulo-mapa">Mapa</h1>
       <div className="controls" style={{ marginBottom: 10 }}>
         <label>
           Latitud:{" "}
@@ -104,6 +107,12 @@ export default function MapComponent() {
         ref={mapRef}
         style={{ height: "500px", width: "100%" }}
       ></div>
+
+      <div className="informacion-ubicacion">
+        <h2>Información de la ubicación</h2>
+        <p>Latitud: {lat}</p>
+        <p>Longitud: {lng}</p>
+      </div>
     </div>
   );
 }
