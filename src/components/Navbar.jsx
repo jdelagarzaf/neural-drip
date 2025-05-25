@@ -16,6 +16,12 @@ export default function Navbar() {
         <Link to="/location" className="text-white hover:text-gray-300 m-4">
           Ubicación
         </Link>
+        <Link to="/ventas" className="text-white hover:text-gray-300 m-4">
+          Ventas
+        </Link>
+        <Link to="/exploracion" className="text-white hover:text-gray-300 m-4">
+          Exploración
+        </Link>
       </div>
     </div>
   );
