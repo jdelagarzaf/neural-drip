@@ -8,6 +8,9 @@ export default function Input({ customLocation, setCustomLocation }) {
   const { data: tiendas } = useDimTienda();
   const { metaResult, loading: metaLoading, error: metaError, predictMeta, reset } = useVentasPrediction();
   const [, setMetaResetKey] = useState(0);
+  const isValid = (value) => {
+        return value !== null && value !== 0 && value !== 'NA' && value !== 'N/A' && value !== '0';
+    };
 
   const handleChange = (field, value) => {
     setCustomLocation(prev => ({ ...prev, [field]: parseFloat(value) }));
@@ -38,7 +41,16 @@ export default function Input({ customLocation, setCustomLocation }) {
       MTS2VENTAS_NUM: guesses.mts2ventas_num,
       PUERTASREFRIG_NUM: guesses.puertasrefrig_num,
       CAJONESESTACIONAMIENTO_NUM: guesses.cajonesestacionamiento_num,
-      LID_UBICACION_TIENDA_UT: guesses.lid_ubicacion_tienda
+      LID_UBICACION_TIENDA_UT: guesses.lid_ubicacion_tienda,
+      VENTA_TOTAL: guesses.venta_total,
+      Meta_venta: guesses.meta_venta,
+      Above_Goal: guesses.above_goal,
+      Percentage_of_Goal: guesses.percentage_of_goal,
+      POBLACION: guesses.poblacion,
+      COMPETIDORES_NUM: guesses.competidores_num,
+      ESCUELAS_NUM: guesses.escuelas_num,
+      HOSPITALES_NUM: guesses.hospitales_num,
+      PLAZA_CVE: parseInt(guesses.plaza_cve),
     };
 
     predictMeta(payload);
@@ -96,9 +108,24 @@ export default function Input({ customLocation, setCustomLocation }) {
                 <p><strong>Nivel Socioeconómico:</strong> {guesses.nivelsocioeconomico_des}</p>
                 <p><strong>Plaza:</strong> {guesses.plaza_cve}</p>
                 <p><strong>Ubicación:</strong> {guesses.lid_ubicacion_tienda}</p>
-                <p><strong>Cajones de Estacionamiento:</strong> {guesses.cajonesestacionamiento_num}</p>
-                <p><strong>Área de Ventas:</strong> {guesses.mts2ventas_num} m²</p>
-                <p><strong>Refrigeradores:</strong> {guesses.puertasrefrig_num}</p>
+                {isValid(guesses.cajonesestacionamiento_num) && (
+                  <p><strong>Cajones de Estacionamiento:</strong> {guesses.cajonesestacionamiento_num}</p>
+                )}
+                {isValid(guesses.mts2ventas_num) && (
+                  <p><strong>Área de Ventas:</strong> {guesses.mts2ventas_num} m²</p>
+                )}
+                {isValid(guesses.puertasrefrig_num) && (
+                  <p><strong>Refrigeradores:</strong> {guesses.puertasrefrig_num}</p>
+                )}
+                {isValid(guesses.competidores_num) && (
+                  <p><strong>Competidores:</strong> {guesses.competidores_num}</p>
+                )}
+                {isValid(guesses.escuelas_num) && (
+                  <p><strong>Escuelas:</strong> {guesses.escuelas_num}</p>
+                )}
+                {isValid(guesses.hospitales_num) && (
+                  <p><strong>Hospitales:</strong> {guesses.hospitales_num}</p>
+                )}
               </div>
             )}
 

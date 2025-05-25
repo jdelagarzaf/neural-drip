@@ -26,7 +26,20 @@ export default function Sidebar({ selectedTienda, setSelectedTienda, chartData }
             <p><strong>Estacionamiento:</strong> {selectedTienda.cajonesestacionamiento_num}</p>
         )}
         <p><strong>Ubicación:</strong> {selectedTienda.lid_ubicacion_tienda}</p>
-        <p><strong>Dataset:</strong> {selectedTienda.dataset}</p>
+        <p><strong>Venta Total:</strong> ${Math.round(selectedTienda.venta_total*100000).toLocaleString('es-MX')} MXN</p>
+        <p><strong>Meta de Venta:</strong> ${(selectedTienda.meta_venta*100000).toLocaleString('es-MX')} MXN</p>
+        <p><strong>¿Cumple la meta?</strong> {selectedTienda.above_goal ? '✅ Sí' : '❌ No'}</p>
+        <p><strong>Porcentaje de Meta:</strong> {Math.round(selectedTienda.percentage_of_goal)}%</p>
+        <p><strong>Población:</strong> {(selectedTienda.poblacion).toLocaleString('es-MX')}</p>
+        {isValid(selectedTienda.competidores_num) && (
+            <p><strong>Competidores:</strong> {selectedTienda.competidores_num}</p>
+        )}
+        {isValid(selectedTienda.escuelas_num) && (
+            <p><strong>Escuelas:</strong> {selectedTienda.escuelas_num}</p>
+        )}
+        {isValid(selectedTienda.hospitales_num) && (
+            <p><strong>Hospitales:</strong> {selectedTienda.hospitales_num}</p>
+        )}
         <a
         href={`https://www.google.com/maps/search/?api=1&query=${selectedTienda.latitud_num},${selectedTienda.longitud_num}`}
         target="_blank"

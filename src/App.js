@@ -2,7 +2,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import { Routes, Route } from 'react-router-dom';
 import NotFound from './pages/NotFound';
-import Mapa from './pages/Tiendas/Index';
+import Mapa from './pages/Mapa/Index';
 import Location from './pages/Location/Index';
 import Ventas from './pages/Ventas/Index';
 import Exploracion from './pages/Exploracion/Index';

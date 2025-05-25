@@ -47,7 +47,7 @@ export default function Mapa({ customLocation, setCustomLocation }) {
           longitude: -100.30,
           latitude: 25.64,
           zoom: 13,
-          pitch: 60, // Tilt the map
+          pitch: 30, // Tilt the map
           bearing: 0
         }}
         style={{ width: '100%', height: '600px' }}

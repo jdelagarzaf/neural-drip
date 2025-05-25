@@ -44,5 +44,12 @@ export function estimateFieldsFromNearby(lat, lon, tiendas, radiusMeters = 300) 
     mts2ventas_num: Math.round(nearby.reduce((sum, t) => sum + parseFloat(t.mts2ventas_num), 0) / nearby.length),
     puertasrefrig_num: Math.round(nearby.reduce((sum, t) => sum + parseFloat(t.puertasrefrig_num), 0) / nearby.length),
     cajonesestacionamiento_num: Math.round(nearby.reduce((sum, t) => sum + parseFloat(t.cajonesestacionamiento_num), 0) / nearby.length),
+    poblacion: Math.round(nearby.reduce((sum, t) => sum + parseFloat(t.poblacion), 0) / nearby.length),
+    competidores_num: Math.round(nearby.reduce((sum, t) => sum + parseFloat(t.competidores_num), 0) / nearby.length),
+    escuelas_num: Math.round(nearby.reduce((sum, t) => sum + parseFloat(t.escuelas_num), 0) / nearby.length),
+    hospitales_num: Math.round(nearby.reduce((sum, t) => sum + parseFloat(t.hospitales_num), 0) / nearby.length),
+    venta_total: Math.round(nearby.reduce((sum, t) => sum + parseFloat(t.venta_total), 0) / nearby.length),
+    meta_venta: Math.round(nearby.reduce((sum, t) => sum + parseFloat(t.meta_venta), 0) / nearby.length),
+    
   };
 }
