@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import NotFound from './pages/NotFound';
 import Mapa from './pages/Tiendas/Index';
 import Location from './pages/Location/Index';
+import Ventas from './pages/Ventas/Index';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/mapa" element={<Mapa />} />
           <Route path="/location" element={<Location />} />
+          <Route path="/ventas" element={<Ventas />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
     </Router>
