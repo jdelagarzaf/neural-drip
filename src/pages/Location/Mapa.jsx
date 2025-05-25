@@ -1,26 +1,16 @@
 import { useState } from 'react';
 import Map, { Marker, Popup } from 'react-map-gl/mapbox';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import useDimTienda from '../hooks/useDimTienda';
-import OxxoStore from '../assets/oxxo_store.svg';
+import useDimTienda from '../../hooks/useDimTienda';
+import OxxoStore from '../../assets/oxxo_store.svg';
 
-export default function TiendasMap({ filters }) {
+export default function Mapa({ filters }) {
   const { data: tiendas, loading } = useDimTienda();
   const [selectedTienda, setSelectedTienda] = useState(null);
 
   const mapboxToken = process.env.REACT_APP_MAPBOX_TOKEN;
 
   if (loading) return <p>Loading map...</p>;
-
-  const filteredTiendas = tiendas.filter((tienda) => {
-    return (
-      (filters.plaza === "" || tienda.plaza_cve === parseInt(filters.plaza)) &&
-      (filters.nivel === "" || tienda.nivelsocioeconomico_des === filters.nivel) &&
-      (filters.entorno === "" || tienda.entorno_des === filters.entorno) &&
-      (filters.segmento === "" || tienda.segmento_maestro_desc === filters.segmento) &&
-      (filters.ubicacion === "" || tienda.lid_ubicacion_tienda === filters.ubicacion)
-    );
-  });
 
   return (
     <Map
@@ -53,7 +43,7 @@ export default function TiendasMap({ filters }) {
         });
       }}
     >
-      {filteredTiendas.map((tienda) => (
+      {tiendas.map((tienda) => (
           <Marker
             key={tienda.tienda_id}
             longitude={parseFloat(tienda.longitud_num)}

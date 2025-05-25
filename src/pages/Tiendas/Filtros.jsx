@@ -1,4 +1,4 @@
-export default function Sidebar({ filters, setFilters }) {
+export default function Filtros({ filters, setFilters }) {
     const handleChange = (field, value) => {
     setFilters((prev) => ({ ...prev, [field]: value }));
   };
