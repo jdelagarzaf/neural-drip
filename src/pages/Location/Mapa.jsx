@@ -1,8 +1,10 @@
 import { useCallback, useState, useRef, useEffect } from 'react';
-import Map, { Marker, Popup, Source, Layer } from 'react-map-gl/mapbox';
+import Map, { Marker, Source, Layer } from 'react-map-gl/mapbox';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import useDimTienda from '../../hooks/useDimTienda';
 import OxxoStore from '../../assets/oxxo_store.svg';
+import useVenta from '../../hooks/useVenta';
+import Sidebar from '../../components/Sidebar';
 
 export default function Mapa({ customLocation, setCustomLocation, predictedLocation }) {
   const { data: tiendas, loading } = useDimTienda();
@@ -33,9 +35,24 @@ export default function Mapa({ customLocation, setCustomLocation, predictedLocat
 
   }, [setCustomLocation]);
 
+  const { data: ventaData } = useVenta();
+  
+  const filteredVentas = selectedTienda
+  ? ventaData
+      .filter(v => v.tienda_id === selectedTienda.tienda_id)
+      .sort((a, b) => a.mes_id - b.mes_id)
+  : [];
+
+
+  const chartData = filteredVentas.map(v => ({
+    mes: String(v.mes_id).replace(/^(\d{4})(\d{2})$/, '$2/$1'), // '202407' => '07/2024'
+    venta: v.venta_total
+  }));
+
   if (loading) return <p>Loading map...</p>;
 
   return (
+    <>
     <Map ref={mapRef}
       initialViewState={{
         longitude: -100.30,
@@ -94,31 +111,6 @@ export default function Mapa({ customLocation, setCustomLocation, predictedLocat
           </Marker>
         )}
 
-      {selectedTienda && (
-        <Popup
-          longitude={parseFloat(selectedTienda.longitud_num)}
-          latitude={parseFloat(selectedTienda.latitud_num)}
-          onClose={() => setSelectedTienda(null)}
-          closeOnClick={false}
-        >
-          <div>
-            <strong> ID Tienda: {selectedTienda.tienda_id}</strong><br />
-            Plaza: {selectedTienda.plaza_cve}<br />
-            Nivel Socioeconómico: {selectedTienda.nivelsocioeconomico_des}<br />
-            Entorno: {selectedTienda.entorno_des}<br />
-            Segmento: {selectedTienda.segmento_maestro_desc}<br />
-            Área: {selectedTienda.mts2ventas_num} m² <br />
-            Refrigeradores: {selectedTienda.puertasrefrig_num}<br />
-            Estacionamiento: {selectedTienda.cajonesestacionamiento_num}<br />
-            Ubicacion Tienda: {selectedTienda.lid_ubicacion_tienda}<br />
-            Dataset: {selectedTienda.dataset}<br />
-            <a href={`https://www.google.com/maps/search/?api=1&query=${selectedTienda.latitud_num},${selectedTienda.longitud_num}`} target="_blank" rel="noopener noreferrer">
-              Ver en Google Maps
-            </a>
-          </div>
-        </Popup>
-      )}
-
       {customLocation.latitude && customLocation.longitude && (
         <>
           <Marker
@@ -164,5 +156,9 @@ export default function Mapa({ customLocation, setCustomLocation, predictedLocat
         </>
       )}
     </Map>
+    {selectedTienda && (
+      <Sidebar selectedTienda={selectedTienda} setSelectedTienda={setSelectedTienda} chartData={chartData} />
+    )}
+  </>
   );
 }
