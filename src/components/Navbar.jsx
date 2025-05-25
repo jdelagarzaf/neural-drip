@@ -10,7 +10,7 @@ export default function Navbar() {
         </Link>
       </div>
       <div className="flex items-center">
-        <Link to="/mapa" className="text-white hover:text-gray-300 m-4">
+        <Link to="/" className="text-white hover:text-gray-300 m-4">
           Mapa
         </Link>
         <Link to="/location" className="text-white hover:text-gray-300 m-4">
