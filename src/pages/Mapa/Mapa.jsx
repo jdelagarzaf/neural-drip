@@ -14,7 +14,7 @@ export default function Mapa({ filters }) {
 
   const filteredTiendas = tiendas.filter((tienda) => {
     return (
-      (filters.plaza === "" || tienda.plaza_cve === parseInt(filters.plaza)) &&
+      (filters.plaza === "" || tienda.plaza_cve === filters.plaza) &&
       (filters.nivel === "" || tienda.nivelsocioeconomico_des === filters.nivel) &&
       (filters.entorno === "" || tienda.entorno_des === filters.entorno) &&
       (filters.segmento === "" || tienda.segmento_maestro_desc === filters.segmento) &&

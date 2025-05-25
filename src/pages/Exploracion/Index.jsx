@@ -11,6 +11,12 @@ const variables = [
   { key: 'cajonesestacionamiento_num', label: 'Estacionamiento', type: 'numeric' },
   { key: 'segmento_maestro_desc', label: 'Segmento', type: 'categorical' },
   { key: 'lid_ubicacion_tienda', label: 'Ubicación', type: 'categorical' },
+  { key: 'competidores_num', label: 'Competidores', type: 'numeric' },
+  { key: 'escuelas_num', label: 'Escuelas', type: 'numeric' },
+  { key: 'hospitales_num', label: 'Hospitales', type: 'numeric' },
+  { key: 'poblacion', label: 'Población', type: 'numeric' },
+  { key: 'venta_total', label: 'Venta Total', type: 'numeric' },
+  { key: 'meta_venta', label: 'Meta de Venta', type: 'numeric' },
 ];
 
 export default function Exploracion() {
