@@ -1,11 +1,15 @@
-export default function Sidebar() {
+export default function Sidebar({ filters, setFilters }) {
+    const handleChange = (field, value) => {
+    setFilters((prev) => ({ ...prev, [field]: value }));
+  };
+
   return (
     <div className="bg-zinc-800 text-gray-100 flex flex-col w-1/4 h-screen m-8">
       <h1 className="font-bold text-4xl pb-8">Filtros</h1>
         <div className="flex flex-col gap-4">
             <div className="flex flex-col">
             <label htmlFor="plaza">Plaza</label>
-            <select id="plaza" className="bg-zinc-700 text-gray-100 p-2 rounded">
+            <select id="plaza" className="bg-zinc-700 text-gray-100 p-2 rounded" value={filters.plaza}   onChange={(e) => handleChange("plaza", e.target.value)}>
                 <option value="">Selecciona una plaza</option>
                 <option value="1">Plaza 1</option>
                 <option value="2">Plaza 2</option>
@@ -17,7 +21,7 @@ export default function Sidebar() {
             </div>
             <div className="flex flex-col">
             <label htmlFor="nivel">Nivel Socioeconómico</label>
-            <select id="nivel" className="bg-zinc-700 text-gray-100 p-2 rounded">
+            <select id="nivel" className="bg-zinc-700 text-gray-100 p-2 rounded" value={filters.nivel} onChange={(e) => handleChange("nivel", e.target.value)}>
                 <option value="">Selecciona un nivel</option>
                 <option value="A">A</option>
                 <option value="AB">AB</option>
@@ -26,13 +30,11 @@ export default function Sidebar() {
                 <option value="C">C</option>
                 <option value="CD">CD</option>
                 <option value="D">D</option>
-                <option value="E">E</option>
-                <option value="F">F</option>
             </select>
             </div>
             <div className="flex flex-col">
                 <label htmlFor="entorno">Entorno</label>
-                <select id="entorno" className="bg-zinc-700 text-gray-100 p-2 rounded">
+                <select id="entorno" className="bg-zinc-700 text-gray-100 p-2 rounded" value={filters.entorno} onChange={(e) => handleChange("entorno", e.target.value)}>
                     <option value="">Selecciona un entorno</option>
                     <option value="Base">Base</option>
                     <option value="Hogar">Hogar</option>
@@ -42,7 +44,7 @@ export default function Sidebar() {
             </div>
             <div className="flex flex-col">
                 <label htmlFor="segmento">Segmento</label>
-                <select id="segmento" className="bg-zinc-700 text-gray-100 p-2 rounded">
+                <select id="segmento" className="bg-zinc-700 text-gray-100 p-2 rounded" value={filters.segmento} onChange={(e) => handleChange("segmento", e.target.value)}>
                     <option value="">Selecciona un segmento</option>
                     <option value="Hogar Reunion">Hogar Reunion</option>
                     <option value="Oficinistas">Oficinistas</option>
@@ -54,7 +56,7 @@ export default function Sidebar() {
             </div>
             <div className="flex flex-col">
                 <label htmlFor="ubicacion">Ubicación</label>
-                <select id="ubicacion" className="bg-zinc-700 text-gray-100 p-2 rounded">
+                <select id="ubicacion" className="bg-zinc-700 text-gray-100 p-2 rounded" value={filters.ubicacion} onChange={(e) => handleChange("ubicacion", e.target.value)}>
                     <option value="">Selecciona una ubicación</option>
                     <option value="UT_CARRETERA_GAS">Carretera Gas</option>
                     <option value="UT_TRAFICO_VEHICULAR">Trafico Vehicular</option>
@@ -63,6 +65,9 @@ export default function Sidebar() {
                     <option value="UT_GAS_URBANA">Gas Urbana</option>
                 </select>
             </div>
+            <button onClick={() => setFilters({ plaza: '', nivel: '', entorno: '', segmento: '', ubicacion: ''}) } className="mt-4 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                Limpiar filtros
+            </button>
         </div>
     </div>
   );
