@@ -1,19 +1,42 @@
-import { useState } from 'react';
-import Map, { Marker, Popup } from 'react-map-gl/mapbox';
+import { useCallback, useState, useRef, useEffect } from 'react';
+import Map, { Marker, Popup, Source, Layer } from 'react-map-gl/mapbox';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import useDimTienda from '../../hooks/useDimTienda';
 import OxxoStore from '../../assets/oxxo_store.svg';
 
-export default function Mapa({ filters }) {
+export default function Mapa({ customLocation, setCustomLocation, predictedLocation }) {
   const { data: tiendas, loading } = useDimTienda();
   const [selectedTienda, setSelectedTienda] = useState(null);
+  const mapRef = useRef(null);
+
+  useEffect(() => {
+    if (predictedLocation?.latitude && predictedLocation?.longitude && mapRef.current) {
+      mapRef.current.flyTo({
+        center: [predictedLocation.longitude, predictedLocation.latitude],
+        zoom: 16,
+        speed: 1.2,
+        curve: 1.8,
+      });
+    }
+  }, [predictedLocation]);
 
   const mapboxToken = process.env.REACT_APP_MAPBOX_TOKEN;
+
+  const handleMapClick = useCallback((event) => {
+    const { lng, lat } = event.lngLat;
+    setCustomLocation(prev => ({ ...prev, longitude: lng, latitude: lat }));
+    mapRef.current?.flyTo({
+      center: [lng, lat],
+      zoom: 15,
+      speed: 1.2
+    });
+
+  }, [setCustomLocation]);
 
   if (loading) return <p>Loading map...</p>;
 
   return (
-    <Map
+    <Map ref={mapRef}
       initialViewState={{
         longitude: -100.30,
         latitude: 25.64,
@@ -24,6 +47,7 @@ export default function Mapa({ filters }) {
       style={{ width: '100%', height: '600px' }}
       mapStyle="mapbox://styles/mapbox/streets-v12"
       mapboxAccessToken={mapboxToken}
+      onClick={handleMapClick}
       onLoad={(event) => {
         const map = event.target;
 
@@ -60,6 +84,16 @@ export default function Mapa({ filters }) {
           </Marker>
         ))}
 
+        {predictedLocation?.latitude && predictedLocation?.longitude && (
+          <Marker
+            longitude={predictedLocation.longitude}
+            latitude={predictedLocation.latitude}
+            anchor="bottom"
+          >
+            <div className="text-yellow-400 text-2xl animate-bounce">⭐</div>
+          </Marker>
+        )}
+
       {selectedTienda && (
         <Popup
           longitude={parseFloat(selectedTienda.longitud_num)}
@@ -83,6 +117,51 @@ export default function Mapa({ filters }) {
             </a>
           </div>
         </Popup>
+      )}
+
+      {customLocation.latitude && customLocation.longitude && (
+        <>
+          <Marker
+            longitude={customLocation.longitude}
+            latitude={customLocation.latitude}
+            anchor="bottom"
+          >
+            <div className="text-red-600 text-2xl">📍</div>
+          </Marker>
+
+          <Source
+            id="circle"
+            type="geojson"
+            data={{
+              type: "FeatureCollection",
+              features: [
+                {
+                  type: "Feature",
+                  geometry: {
+                    type: "Point",
+                    coordinates: [customLocation.longitude, customLocation.latitude],
+                  },
+                },
+              ],
+            }}
+          >
+            <Layer
+              id="circle-fill"
+              type="circle"
+              paint={{
+                "circle-radius": {
+                  stops: [
+                    [0, 0],
+                    [20, customLocation.radius / 0.075], // Adjusted for meters at zoom ~14-16
+                  ],
+                  base: 2,
+                },
+                "circle-color": "#ff0000",
+                "circle-opacity": 0.3,
+              }}
+            />
+          </Source>
+        </>
       )}
     </Map>
   );
