@@ -48,7 +48,8 @@ export default function Input({ customLocation, setCustomLocation }) {
     setGuesses(null);
     setMetaResetKey(prev => prev + 1);
     reset();
-  }, [customLocation.latitude, customLocation.longitude, reset]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [customLocation.latitude, customLocation.longitude]);
 
   const nivelSocioeconomicoMap = {
     A: 4,

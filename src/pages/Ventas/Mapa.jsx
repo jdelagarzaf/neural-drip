@@ -34,7 +34,7 @@ export default function Mapa({ customLocation, setCustomLocation }) {
 
 
   const chartData = filteredVentas.map(v => ({
-    mes: String(v.mes_id).replace(/^(\d{4})(\d{2})$/, '$2/$1'), // '202407' => '07/2024'
+    mes: String(v.mes_id).replace(/^(\d{4})(\d{2})$/, '$2/$1'),
     venta: v.venta_total
   }));
 
