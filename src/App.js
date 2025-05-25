@@ -6,6 +6,7 @@ import NotFound from './pages/NotFound';
 import Mapa from './pages/Tiendas/Index';
 import Location from './pages/Location/Index';
 import Ventas from './pages/Ventas/Index';
+import Exploracion from './pages/Exploracion/Index';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/mapa" element={<Mapa />} />
           <Route path="/location" element={<Location />} />
           <Route path="/ventas" element={<Ventas />} />
+          <Route path="/exploracion" element={<Exploracion />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
     </Router>
