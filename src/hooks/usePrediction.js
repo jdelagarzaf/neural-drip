@@ -10,7 +10,7 @@ export default function usePrediction() {
     setError(null);
 
     try {
-      const res = await fetch(`https://neural-api-production.up.railway.app/mejor_ubicacion`, {
+      const res = await fetch(`${process.env.REACT_APP_FLASK_URL}/mejor_ubicacion`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
