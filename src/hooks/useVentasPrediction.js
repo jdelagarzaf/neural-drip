@@ -11,7 +11,7 @@ export default function useVentasPrediction() {
     setMetaResult(null);
 
     try {
-      const res = await fetch(`${process.env.REACT_APP_FLASK_URL}/evaluar_ubicacion`, {
+      const res = await fetch(`${process.env.REACT_APP_NEURAL_VENTAS_URL}/predictSales`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -30,5 +30,7 @@ export default function useVentasPrediction() {
     }
   };
 
-  return { metaResult, loading, error, predictMeta };
+  const reset = () => setMetaResult(null);
+
+  return { metaResult, loading, error, predictMeta, reset };
 }

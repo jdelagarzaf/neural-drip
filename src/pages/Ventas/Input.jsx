@@ -6,8 +6,8 @@ import useVentasPrediction from '../../hooks/useVentasPrediction';
 export default function Input({ customLocation, setCustomLocation }) {
   const [guesses, setGuesses] = useState(null);
   const { data: tiendas } = useDimTienda();
-  const { metaResult, loading: metaLoading, error: metaError, predictMeta } = useVentasPrediction();
-  const [metaResetKey, setMetaResetKey] = useState(0);
+  const { metaResult, loading: metaLoading, error: metaError, predictMeta, reset } = useVentasPrediction();
+  const [, setMetaResetKey] = useState(0);
 
   const handleChange = (field, value) => {
     setCustomLocation(prev => ({ ...prev, [field]: parseFloat(value) }));
@@ -30,14 +30,15 @@ export default function Input({ customLocation, setCustomLocation }) {
     if (!guesses || !customLocation.latitude || !customLocation.longitude) return;
 
     const payload = {
-      latitud: customLocation.latitude,
-      longitud: customLocation.longitude,
-      radio: customLocation.radius,
-      entorno: guesses.entorno_des,
-      segmento: guesses.segmento_maestro_desc,
-      nivel: guesses.nivelsocioeconomico_des,
-      plaza: guesses.plaza_cve,
-      ubicacion: guesses.lid_ubicacion_tienda
+      LATITUD_NUM: customLocation.latitude,
+      LONGITUD_NUM: customLocation.longitude,
+      ENTORNO_DES: guesses.entorno_des,
+      SEGMENTO_MAESTRO_DESC: guesses.segmento_maestro_desc,
+      NIVELSOCIOECONOMICO_DES: nivelSocioeconomicoMap[guesses.nivelsocioeconomico_des] ?? null,
+      MTS2VENTAS_NUM: guesses.mts2ventas_num,
+      PUERTASREFRIG_NUM: guesses.puertasrefrig_num,
+      CAJONESESTACIONAMIENTO_NUM: guesses.cajonesestacionamiento_num,
+      LID_UBICACION_TIENDA_UT: guesses.lid_ubicacion_tienda
     };
 
     predictMeta(payload);
@@ -45,8 +46,19 @@ export default function Input({ customLocation, setCustomLocation }) {
 
   useEffect(() => {
     setGuesses(null);
-    setMetaResetKey(prev => prev + 1); // resets the prediction hook
-  }, [customLocation.latitude, customLocation.longitude]);
+    setMetaResetKey(prev => prev + 1);
+    reset();
+  }, [customLocation.latitude, customLocation.longitude, reset]);
+
+  const nivelSocioeconomicoMap = {
+    A: 4,
+    AB: 3.5,
+    B: 3,
+    BC: 2.5,
+    C: 2,
+    CD: 1.5,
+    D: 1
+  };
 
   return (
     <div className="bg-zinc-800 text-gray-100 flex flex-col w-1/4 h-screen m-8">
@@ -76,7 +88,7 @@ export default function Input({ customLocation, setCustomLocation }) {
               </button>
             )}
 
-            {guesses && (
+            {guesses && !metaResult &&(
               <div className="mt-4 bg-zinc-700 p-4 rounded text-sm space-y-1">
                 <p><strong>Entorno:</strong> {guesses.entorno_des}</p>
                 <p><strong>Segmento:</strong> {guesses.segmento_maestro_desc}</p>
@@ -92,10 +104,10 @@ export default function Input({ customLocation, setCustomLocation }) {
             {metaLoading && <p className="text-yellow-300 mt-2">Evaluando ubicación...</p>}
             {metaError && <p className="text-red-500 mt-2">{metaError}</p>}
 
-            {metaResult && (
+            {metaResult && guesses && (
               <div className="mt-4 bg-green-800 text-white p-4 rounded">
-                <p><strong>Venta prevista:</strong> {metaResult.Venta_Prevista}</p>
-                <p><strong>¿Cumple la meta?</strong> {metaResult.Cumplio_Meta ? '✅ Sí' : '❌ No'}</p>
+                <p><strong>Venta prevista:</strong> ${Math.round(metaResult.venta_total_estimado * 100000).toLocaleString('es-MX')} MXN</p>
+                <p><strong>¿Cumple la meta?</strong> {metaResult.Above_Goal_calculado === 1 ? '✅ Sí' : '❌ No'}</p>
               </div>
             )}
 
